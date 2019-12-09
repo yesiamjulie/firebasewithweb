@@ -5,11 +5,13 @@ import com.google.api.services.storage.model.Channel;
 import com.google.firebase.messaging.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+@Service
 public class FCMService {
 
     private Logger logger = LoggerFactory.getLogger(FCMService.class);
@@ -31,6 +33,14 @@ public class FCMService {
 
     }
 
+    public void sendMessageToToken(PushNotificationRequest request)
+        throws InterruptedException, ExecutionException{
+
+        Message message = getPreconfiguredMessageToToken(request);
+        String response = sendAndGetResponse(message);
+        logger.info("Sent message to Token. Device token: " + request.getToken() + ", "+ response);
+
+    }
     public String sendAndGetResponse(Message message) throws InterruptedException, ExecutionException{
 
         return FirebaseMessaging.getInstance().sendAsync(message).get();
@@ -50,12 +60,10 @@ public class FCMService {
                 .setAps(Aps.builder().setCategory(topic).setThreadId(topic).build()).build();
     }
     private Message getPreconfiguredMessageToToken(PushNotificationRequest request){
-        return getPreconfiguredMessageBuiler(request).setToken(request.getToken()).build();
+        return getPreconfiguredMessageBuiler(request).setToken(request.getToken())
+                .build();
     }
 
-    private Channel getPreconfiguredMessageBuiler(PushNotificationRequest request) {
-        return null;
-    }
 
     private Message getPreconfiguredMessageWithoutData(PushNotificationRequest request){
         return getPreconfiguredMessageBuiler(request).setTopic(request.getTopic()).build();
@@ -65,7 +73,7 @@ public class FCMService {
     }
 
 
-    private Message.Builder getPreconfiguredMessageBuilder(PushNotificationRequest request){
+    private Message.Builder getPreconfiguredMessageBuiler(PushNotificationRequest request) {
         AndroidConfig androidConfig = getAndroidConfig(request.getTopic());
         ApnsConfig apnsConfig = getApnsConfig(request.getTopic());
         return Message.builder()
@@ -74,8 +82,5 @@ public class FCMService {
 
     }
 
-    public void sendMessageToToken(PushNotificationRequest request) {
-
-    }
 }
 

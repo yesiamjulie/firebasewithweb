@@ -29,7 +29,7 @@ public class PushNotificationRequest {
     }
 
     public String getMessage() {
-        return null;
+        return message;
     }
 
     public void setTitle(String title) {

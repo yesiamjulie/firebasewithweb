@@ -1,8 +1,8 @@
-package com.example.demo.fcm.controller;
+package com.example.firebasewithweb.fcm.controller;
 
-import com.example.demo.fcm.model.PushNotificationRequest;
-import com.example.demo.fcm.model.PushNotificationResponse;
-import com.example.demo.fcm.service.PushNotificationService;
+import com.example.firebasewithweb.fcm.model.PushNotificationRequest;
+import com.example.firebasewithweb.fcm.model.PushNotificationResponse;
+import com.example.firebasewithweb.fcm.service.PushNotificationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
